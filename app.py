@@ -15,3 +15,7 @@ def bios():
 @app.route('/restream/')
 def restream():
     return render_template('restream.html')
+
+@app.route('/volga-dnepr/')
+def volgadnepr():
+    return render_template('volga-dnepr.html')
