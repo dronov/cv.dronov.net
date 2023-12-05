@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" class="tui-bg-blue-black">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Mike Dronov's Resume</title>
+    <script src="https://vinibiavatti1.github.io/TuiCss/dist/tuicss.min.js"></script>
+    <link rel="stylesheet" href="https://vinibiavatti1.github.io/TuiCss/dist/tuicss.min.css">
+</head>
+
+<body>
+    <div class="tui-screen-1024-768 black-168 white-text" style="padding: 2px">
+        <img src="https://vinibiavatti1.github.io/TuiCss/examples/resources/pcstartup1.png" width="40px" height="40px" style="float: left" />
+        <img src="https://vinibiavatti1.github.io/TuiCss/examples/resources/pcstartup2.png" width="200px" height="150px" style="float: right" />
+        <div style="margin-top: 4px"></div>
+        Mike Dronov's resume, detailed technical version<br>
+        Copyright (C) 1991-2023, dronovmm@proton.me<br><br>
+        ASUS P4T533-C ACPI BIOS Revision 1007 Beta 001<br><br>
+        Main Processor : AMD Athlon(tm) XP 2500+<br>
+        Memory Test : &nbsp;&nbsp; 524288K OK<br><br>
+        <div id="session-1" style="display: none">
+            Award Plug and Play BIOS Extension v1.0A<br>
+            Initialize Plug and Play Cards...<br>
+            PNP init Completed<br><br>
+            This is my interactive resume. I hope it will help you get to know me better, including my skills and technical experience. Here it is a little brief about me.<br><br>
+            Experience:<br><br>
+        </div>
+        <div id="session-2" style="display: none">
+            2012-2023: Junior-Senior (System/Software/Linux/DevOps) Engineer<br><br>
+        </div>
+        <div id="session-3" style="display: none">
+            Stack: <br><br>
+        </div>
+        <div id="session-4" style="display: none">
+            Main......: Linux, Docker, k8s, Python, Golang, etc<br>
+            Clouds/IaC: GCP, Alicloud, Akamai, Terraform, Ansible, etc<br>
+            Other.....: Git, Gitlab, Prometheus, etc <br>
+        </div>
+        <div id="session-5" style="display: none">
+            <br> Built with tuicss, deployed in Docker container to Nomad test cluster running on Debian Linux.
+        </div>
+        <div class="tui-statusbar absolute black white-text">
+            <ul>
+                <li"><a href="bios.html">Press <b>HERE</b> to view detailed resume, </a><b>Alt+F2</b> to enter EZ flash utility
+                </li>
+            </ul>
+            <ul>
+                <li style="margin-left: 0px">08/20/2002-1850E/ICH2/W627-P4T533-C</li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+    window.onload = function() {
+        setTimeout(function() { showSession("session-1"); }, 300);
+        setTimeout(function() { showSession("session-2"); }, 400);
+        setTimeout(function() { showSession("session-3"); }, 450);
+        setTimeout(function() { showSession("session-4"); }, 870);
+        setTimeout(function() { showSession("session-5"); }, 1500);
+    };
+    function showSession(id) {
+        const session = document.getElementById(id);
+        session.style.display = "block";
+    }
+</script>
+</html>
