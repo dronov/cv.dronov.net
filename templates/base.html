@@ -9,6 +9,16 @@
 </head>
 
 <body>
+    <div class="tui-screen-1024-768 bordered white-168">
+        <div class="tui-panel cyan-168 full-width black-255-text tui-no-shadow center">
+            {{ page_title }}
+        </div>
+        <div class="tui-tabs">
+            <ul>
+                <li><a class="tui-tab active" data-tab-content="tab-1-content">Experience</a></li>
+                <li><a class="tui-tab" data-tab-content="tab-3-content" href="/">Exit</a></li>
+            </ul>
+        </div>  
     {% block content %} {% endblock %}
 </body>
 </html>

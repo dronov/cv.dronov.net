@@ -10,7 +10,7 @@ def hello():
 
 @app.route('/bios/')
 def bios():
-    return render_template('bios.html')
+    return render_template('bios.html', page_title='Mike Dronov Resume')
 
 @app.route('/restream/')
 def restream():
@@ -18,4 +18,4 @@ def restream():
 
 @app.route('/volga-dnepr/')
 def volgadnepr():
-    return render_template('volga-dnepr.html')
+    return render_template('volga-dnepr.html', page_title='Junior system engineer [Volga-Dnepr] [2012-2013]')
