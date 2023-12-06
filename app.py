@@ -6,7 +6,11 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello():
-    return render_template('index.html', utc_dt=datetime.datetime.utcnow())
+    return render_template('index.html')
+
+@app.route('/cover-letter/')
+def coverletter():
+    return render_template('cover-letter.html')
 
 @app.route('/bios/')
 def bios():
