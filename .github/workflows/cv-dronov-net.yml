@@ -15,7 +15,7 @@ jobs:
         run: |
           whoami
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:${{ SHORT_SHA}}
+        run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:${SHORT_SHA}
       - name: Push Docker image
-        run: docker push localhost:5000/cv-dronov-net:${{ SHORT_SHA }}
+        run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
 
