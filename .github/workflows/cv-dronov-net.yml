@@ -15,6 +15,7 @@ jobs:
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:$(date +%s)
   push:
+    if: steps.build.outcome == 'success'
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
