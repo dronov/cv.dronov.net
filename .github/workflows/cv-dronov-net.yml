@@ -1,5 +1,5 @@
 name: build/push docker image
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is is building interactive CV 🚀
 on: [push]
 jobs:
   build:
@@ -9,5 +9,8 @@ jobs:
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
+      - name: w
+        run: |
+          whoami
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:$(date +%s)
