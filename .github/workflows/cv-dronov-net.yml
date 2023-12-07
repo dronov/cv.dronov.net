@@ -13,7 +13,7 @@ jobs:
         run: |
           whoami
       - name: Build Docker image
-        run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:$(date +%s)
+        run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:${{ github.sha_short }}
       - name: Push Docker image
-        run: docker push localhost:5000/cv-dronov-net:$(date +%s)
+        run: docker push localhost:5000/cv-dronov-net:${{ github.sha_short}}
 
