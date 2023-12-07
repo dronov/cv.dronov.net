@@ -4,6 +4,7 @@ on: [push]
 jobs:
   build:
     runs-on: self-hosted
+    # TODO: separate steps to independent jobs
     steps:
       - uses: actions/checkout@v2
       - name: Add SHORT_SHA env property with commit short sha
@@ -18,4 +19,8 @@ jobs:
         run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:${SHORT_SHA}
       - name: Push Docker image
         run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
+      - name: Edit Nomad hcl file to use new image
+        run: sed -i '' 's/latest/${SHORT_SHA}/g' cv-dronov-net.hcl
+      - name: Deploy to Nomad
+        run: nomad job run cv-dronov-net.hcl
 

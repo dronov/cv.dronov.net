@@ -24,6 +24,7 @@ job "cv-dronov-net" {
       driver = "docker"
       config {
         image = "localhost:5000/cv-dronov-net:latest"
+        ports = ["web"]
       }
     }
   }
