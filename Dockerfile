@@ -5,6 +5,6 @@ COPY . .
 
 RUN pip install flask
 
-EXPOSE 5000
+EXPOSE 3000
 RUN ls . 
-CMD [ "flask", "--app=app", "run", "--host=0.0.0.0" ]
+CMD [ "flask", "--app=app", "run", "--host=0.0.0.0", "-p 3000" ]
