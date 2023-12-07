@@ -20,7 +20,7 @@ jobs:
       - name: Push Docker image
         run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
       - name: Edit Nomad hcl file to use new image
-        run: sed -i -e  's/latest/${SHORT_SHA}/g' cv-dronov-net.hcl
+        run: sed -i 's/latest/${SHORT_SHA}/' cv-dronov-net.hcl
       - name: Deploy to Nomad
         run: nomad job run cv-dronov-net.hcl
 
