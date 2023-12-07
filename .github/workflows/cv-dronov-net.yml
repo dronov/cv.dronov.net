@@ -14,17 +14,6 @@ jobs:
           whoami
       - name: Build Docker image
         run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:$(date +%s)
-  push:
-    if: steps.build.outcome == 'success'
-    runs-on: self-hosted
-    steps:
-      - uses: actions/checkout@v2
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - name: w
-        run: |
-          whoami
       - name: Push Docker image
         run: docker push localhost:5000/cv-dronov-net:$(date +%s)
 
