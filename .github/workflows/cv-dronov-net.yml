@@ -5,11 +5,9 @@ jobs:
   build:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v2
       - name: List files in the repository
         run: |
           ls ${{ github.workspace }}
-      - name: Try to build docker image
-        run: |
-          docker build -t localhost:5000/cv-dronov-net:{{ github.sha }}
-          docker push localhost:5000/cv-dronov-net:{{ github.sha }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:$(date +%s)
