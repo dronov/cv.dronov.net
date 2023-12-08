@@ -17,7 +17,7 @@ def bios():
     return render_template('bios.html', page_title='Mike Dronov Resume')
 
 @app.route('/skills/')
-def restream():
+def skills():
     return render_template('skills.html')
 
 @app.route('/restream/')
