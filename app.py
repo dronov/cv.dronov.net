@@ -16,6 +16,10 @@ def coverletter():
 def bios():
     return render_template('bios.html', page_title='Mike Dronov Resume')
 
+@app.route('/skills/')
+def restream():
+    return render_template('skills.html')
+
 @app.route('/restream/')
 def restream():
     return render_template('restream.html')
