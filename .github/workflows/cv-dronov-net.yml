@@ -17,7 +17,6 @@ jobs:
         run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
   linter:
     runs-on: self-hosted
-    needs: build
     steps:
       - run: echo "🎉 There will be linter checks."
       - run: echo "🐧 I promise!"
