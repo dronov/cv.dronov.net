@@ -15,15 +15,6 @@ jobs:
         run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:${SHORT_SHA}
       - name: Push Docker image
         run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
-  push:
-    runs-on: self-hosted
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - name: Add SHORT_SHA env property with commit short sha
-        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
-      - name: Push Docker image
-        run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
   test:
     runs-on: self-hosted
     needs: build
@@ -36,6 +27,15 @@ jobs:
     steps:
       - run: echo "🎉 There will be security tests."
       - run: echo "🐧 I promise!"
+  push:
+    runs-on: self-hosted
+    needs: [build, test, security]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Add SHORT_SHA env property with commit short sha
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+      - name: Push Docker image
+        run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
   deploy:
     runs-on: self-hosted
     needs: [build, test, security, push]
@@ -47,4 +47,3 @@ jobs:
         run: sed -i "s/latest/${SHORT_SHA}/" cv-dronov-net.hcl
       - name: Deploy to Nomad
         run: nomad job run cv-dronov-net.hcl
-
