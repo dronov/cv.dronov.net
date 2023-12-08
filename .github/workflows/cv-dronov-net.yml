@@ -24,11 +24,25 @@ jobs:
         run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       - name: Push Docker image
         run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
+  test:
+    runs-on: self-hosted
+    needs: build
+     steps:
+      - run: echo "🎉 There will be python tests."
+      - run: echo "🐧 I promise!"
+  security:
+    runs-on: self-hosted
+    needs: build
+     steps:
+      - run: echo "🎉 There will be security tests."
+      - run: echo "🐧 I promise!"
   deploy:
     runs-on: self-hosted
-    needs: [build, push]
+    needs: [build, test, security, push]
     steps:
       - uses: actions/checkout@v2
+      - name: Add SHORT_SHA env property with commit short sha
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
       - name: Edit Nomad hcl file to use new image
         run: sed -i "s/latest/${SHORT_SHA}/" cv-dronov-net.hcl
       - name: Deploy to Nomad
