@@ -15,21 +15,27 @@ jobs:
         run: docker build . --file Dockerfile --tag localhost:5000/cv-dronov-net:${SHORT_SHA}
       - name: Push Docker image
         run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
-  test:
+  linter:
     runs-on: self-hosted
     needs: build
+    steps:
+      - run: echo "🎉 There will be linter checks."
+      - run: echo "🐧 I promise!"
+  test:
+    runs-on: self-hosted
+    needs: [build, linter]
     steps:
       - run: echo "🎉 There will be python tests."
       - run: echo "🐧 I promise!"
   security:
     runs-on: self-hosted
-    needs: build
+    needs: [build, linter]
     steps:
       - run: echo "🎉 There will be security tests."
       - run: echo "🐧 I promise!"
   push:
     runs-on: self-hosted
-    needs: [build, test, security]
+    needs: [build, linter, test, security]
     steps:
       - uses: actions/checkout@v2
       - name: Add SHORT_SHA env property with commit short sha
@@ -38,7 +44,7 @@ jobs:
         run: docker push localhost:5000/cv-dronov-net:${SHORT_SHA}
   deploy:
     runs-on: self-hosted
-    needs: [build, test, security, push]
+    needs: [build, linter, test, security, push]
     steps:
       - uses: actions/checkout@v2
       - name: Add SHORT_SHA env property with commit short sha
