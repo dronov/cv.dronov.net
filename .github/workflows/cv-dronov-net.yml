@@ -19,6 +19,7 @@ jobs:
     runs-on: self-hosted
     steps:
       - run: pip3 install ruff
+      - run: whereis ruff
       - run: ruff app.py
   test:
     runs-on: self-hosted
