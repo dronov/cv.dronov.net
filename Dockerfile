@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 COPY . .    
 
 RUN pip install flask
+RUN pip install ruff
 
 EXPOSE 3000
 RUN ls . 
