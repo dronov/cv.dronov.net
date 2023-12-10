@@ -1,4 +1,3 @@
-import datetime
 from flask import Flask, render_template
 
 app = Flask(__name__)
@@ -11,6 +10,10 @@ def hello():
 @app.route('/cover-letter/')
 def coverletter():
     return render_template('cover-letter.html')
+
+@app.route('/how-it-works/')
+def howitworks():
+    return render_template('how-it-works.html')
 
 @app.route('/bios/')
 def bios():

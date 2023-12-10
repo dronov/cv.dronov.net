@@ -18,8 +18,8 @@ jobs:
   linter:
     runs-on: self-hosted
     steps:
-      - run: echo "🎉 There will be linter checks."
-      - run: echo "🐧 I promise!"
+      - run: pip3 install ruff
+      - run: ruff app.py
   test:
     runs-on: self-hosted
     needs: [build, linter]
