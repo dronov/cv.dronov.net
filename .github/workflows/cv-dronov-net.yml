@@ -18,9 +18,8 @@ jobs:
   linter:
     runs-on: self-hosted
     steps:
-      - run: pip3 install ruff
-      - run: ls /home/twtrp/.local/lib/python3.9/site-packages
-      - run: ruff app.py
+      - run: pip install ruff
+      - run: /home/twtrp/.local/lib/python3.9/site-packages/ruff app.py
   test:
     runs-on: self-hosted
     needs: [build, linter]
