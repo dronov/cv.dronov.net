@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" class="tui-bg-blue-black">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %} - Resume</title>
+    <script src="https://vinibiavatti1.github.io/TuiCss/dist/tuicss.min.js"></script>
+    <link rel="stylesheet" href="https://vinibiavatti1.github.io/TuiCss/dist/tuicss.min.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MQPMEK74QC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'G-MQPMEK74QC');
+    </script>
+</head>
+
+<body>
+    {% block content %} {% endblock %}
+</body>
+</html>

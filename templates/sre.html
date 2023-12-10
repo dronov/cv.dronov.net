@@ -1,0 +1,58 @@
+{% extends 'base-main.html' %}
+
+{% block content %}
+<div class="tui-panel cyan-168 black-255-text" style="width: 1024px;">
+<p><b>NOTE:</b> I often take part in resolving and dissecting incidents. It's quite an engaging job, 
+allowing me not only to tackle incidents but also to exercise my mind and interact with colleagues.
+I discovered some interesting questions on the internet regarding the role of an SRE engineer and >
+tried to answer them.</p>
+<p><b>What factors should be taken into consideration when it comes to external monitoring?</b></p>
+<p>I like to read postmortems from big companies which explains a lot about what exactly and how happened in particular incident. That's why I decided not to make a boring list of some important factors to consider with external monitoring but to imagine some situation covered this question.</p>
+
+<p>Imagine the situation in which I, as an engineer, found myself responsible for overseeing a complex network with external services within my organization. This network served as the backbone for various digital services, connecting users, employees, and partners to a diverse array of critical applications, from web servers to databases and email services to cloud storage.</p>
+
+<p>As I carried out my daily duties, it became evident that relying solely on internal monitoring was inadequate to ensure the stability and security of our network. It dawned on me that we needed to gain insights into how our systems performed from an external perspective. This realization set us on a quest to establish an external monitoring system capable of providing a comprehensive view of our network's well-being and safety.</p>
+
+<p>One of the first considerations was the choice of monitoring tools. We recognized the need for reliable, scalable solutions capable of collecting a broad range of data. Our solution involved a blend of open-source and commercial monitoring tools. For basic checks, we employed techniques such as ping and HTTP request monitoring to verify the responsiveness of our web servers. To delve deeper, we configured protocol-specific checks for services like SMTP, DNS, and SSH.  Moreover, we integrated specialized monitors that kept a close eye on the performance of external services that were critical to our infrastructure. This included monitoring services like Cloudflare or Akamai, which ensured our content delivery networks (CDNs) were operating optimally.</p>
+
+<p>We also understood the importance of conducting monitoring from various geographical locations. Ensuring that our services were accessible and responsive across different regions was essential. Consequently, we established monitoring nodes in multiple locations, spanning continents. This approach allowed us to identify regional performance issues and potential content delivery challenges. We also discussed to use external monitoring tools like site24x7 but decided to do it a bit later.</p>
+
+<p>Security was a paramount concern. We knew that external monitoring tools, if not secured correctly, could inadvertently serve as entry points for potential attacks. To mitigate this risk, we implemented stringent security measures. Monitoring nodes were situated within isolated networks, data retrieval required authentication, and data transmission was encrypted to safeguard against eavesdropping.</p>
+
+<p>Another vital factor we considered was the frequency of checks. We implemented a tiered approach, monitoring mission-critical services every minute while conducting less frequent checks for services of lower importance. This strategy helped prevent an excessive load on the systems being monitored. Additionally, we defined alerting thresholds to ensure prompt notifications when services experienced downtime or performance degradation beyond acceptable levels.</p>
+
+<p>The story of our external monitoring endeavors did not  ended there. We understood that ongoing reviews and adjustments were crucial. Over time, we fine-tuned our monitoring setup by refining alerting thresholds, updating our monitoring tools, and extending our monitoring coverage to encompass emerging technologies and services.</p>
+
+<p>Through our diligent and proactive approach to external monitoring, we ensured that our network remained responsive to users' needs and resilient against potential threats. Our relentless pursuit of external monitoring allowed us to maintain our digital infrastructure in the face of an ever-evolving technological landscape, securing the digital realm of our organization.</p>
+
+<p>And so, as diligent engineers, we continued to monitor our network, adapting to new challenges as they emerged.</p>
+
+<p><b>How do you troubleshoot communication problems between two servers, focusing on AWS tools and methodologies?</b></p>
+<p>Troubleshooting network communication between two servers in an AWS environment involves a combination of AWS-specific tools and conventional network troubleshooting utilities. Below are the steps to troubleshoot network communication issues using a combination of AWS tools and common network diagnostic tools:</p>
+
+<p>1) Check AWS Security Groups and Network ACLs (AWS Security Groups): Ensure that the security groups associated with the servers allow the necessary inbound and outbound traffic. Verify that the rules in the security groups are correctly configured. You can use the AWS Management Console or AWS Command Line Interface (CLI) to check and modify security group rules.
+Network ACLs: Network ACLs act at the subnet level. Verify that the Network ACLs associated with the subnets where the servers reside are not blocking the required traffic.</p>
+
+<p>2) Verify Subnet Routing: Check the route tables associated with the subnets. Ensure that the route tables are correctly configured to route traffic between the subnets.</p>
+
+<p>3) Confirm VPC Peering and VPN Connections: If the servers are in different VPCs or connected via VPN, verify that the peering connections or VPN tunnels are established and configured correctly. </p>
+
+<p>4) Check AWS VPC Flow Logs: Enable and review VPC Flow Logs to monitor network traffic and diagnose any anomalies or dropped packets. Flow Logs can help identify issues and where the traffic might be blocked.</p>
+
+<p>5) Use Common UNIX Network Tools: ping, telnet, mtr, traceroute, etc</p>
+
+<p>6) Check DNS Resolution: Ensure that DNS is resolving to the correct IP addresses for the servers. Incorrect DNS configurations can lead to communication problems.</p>
+
+<p>7) Check Network Configuration Inside Instances: Verify that the network settings inside the instances (e.g., firewall rules, routing tables, and network interfaces) are correctly configured.</p>
+
+<p>8) AWS CloudWatch Metrics: Monitor AWS CloudWatch metrics for the servers and related network components. Unusual patterns or high network latency may indicate network issues.</p>
+
+<p>9) AWS Support: Last chance to solve the issue could be writing to AWS support and ask them  to help :)</p>
+
+<p>10) Logs and Application-Level Debugging: If all network components appear to be functioning correctly, the issue may be application-specific. Check application logs and perform application-level debugging to identify the root cause.</p>
+
+<p>11) Packet Capture and Analysis: In some cases, it may needs to capture network packets using tools like Wireshark or tcpdump to analyze the traffic at a low level. This can help identify specific issues with packet loss or unexpected traffic patterns.</p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

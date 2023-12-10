@@ -47,3 +47,7 @@ def zealgroup():
 @app.route('/volga-dnepr/')
 def volgadnepr():
     return render_template('volga-dnepr.html', page_title='Junior system engineer | Volga-Dnepr | 2012-2013')
+
+@app.route('/sre/')
+def sre():
+    return render_template('sre.html', page_title='SRE and incidents')
