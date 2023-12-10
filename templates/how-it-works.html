@@ -168,13 +168,9 @@
                 <span class="tui-fieldset-button left"><span class="green-255-text">HOW&nbsp;IT&nbsp;WORKS</span></span>
                 <span class="tui-fieldset-text" style="margin-left: 50px;">&nbsp;1:1&nbsp;</span>
 <b>Description:</b>
-
-<p>Honestly, I found great pleasure in implementing the resume as if it were a real production project. It was a kind of hackathon for myself: a chance to tackle a task under constraints and explore tools that I don't use in my everyday life. For me, it was the container orchestration system Nomad and Github Actions. I don't actively use either on a daily basis, but setting them up was a joy.</p>
-
-<p>I understand that the project is not perfect. There's still a lot to improve, both in terms of code (I didn't have time to refactor the HTML quickly, at least from a DRY perspective) and infrastructure (I still haven't decided on lightweight monitoring). I need to add security measures and regular tests, and I'm currently in a creative exploration phase for these aspects.</p>
-
-<p>In any case, hackathons are cool!</p>
-
+<p>The code is pushed to the Github repository. Next, Github Actions creates a pipeline that runs on a standalone runner. We perform linting checks, run tests, and if everything is successful, we push the built Docker Image to a private Docker registry. Afterward, we create a new job in Nomad that pulls the previously built Docker Image, builds the container, and launches it in the cluster. Clients from the internet access the application through a separately configured Nginx, which is set up alongside Certbot to handle SSL certificates.</p>
+<p>Honestly, I found great pleasure in implementing the resume as if it were a real production project. It was a kind of hackathon for myself: a chance to tackle a task under constraints and explore tools that I don't use in my everyday life. For me, it was the container orchestration system Nomad and Github Actions.</p>
+<p>I understand that the project is not perfect. There's still a lot to improve, both in terms of code (I didn't have time to refactor the HTML quickly, at least from a DRY perspective) and infrastructure (I still haven't decided on lightweight monitoring).</p>
 <b>Source code:</b> <a href="https://github.com/dronov/cv.dronov.net/">https://github.com/dronov/cv.dronov.net/</a><br>
 <b>Application:</b> Python + Flask<br>
 <b>CSS:</b> <a href="https://github.com/vinibiavatti1/TuiCss/">TuiCss</a><br>
