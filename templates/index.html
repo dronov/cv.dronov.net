@@ -54,7 +54,7 @@
                     <a href="/bios"><button class="tui-button white-255-text">Work experience</button></a>
                     <a href="/skills"><button class="tui-button purple-168 white-255-text">Skills</button></a>
                     <a href="/how-it-works"><button class="tui-button yellow-168 white-255-text">How it works</button></a>
-                    <a href="/sre"><button class="tui-button red-168 white-255-text">SRE</button></a>
+                    <a href="/sre"><button id="sreButton" class="tui-button green-168 white-255-text">SRE</button></a>
                 </fieldset>
             </div>
         </div>
@@ -70,16 +70,40 @@
     </div>
 </body>
 <script>
-    window.onload = function() {
-        setTimeout(function() { showSession("session-1"); }, 300);
-        setTimeout(function() { showSession("session-2"); }, 400);
-        setTimeout(function() { showSession("session-3"); }, 450);
-        setTimeout(function() { showSession("session-4"); }, 870);
-        setTimeout(function() { showSession("session-5"); }, 1500);
+    window.onload = function () {
+        setTimeout(function () { showSession("session-1"); }, 300);
+        setTimeout(function () { showSession("session-2"); }, 400);
+        setTimeout(function () { showSession("session-3"); }, 450);
+        setTimeout(function () { showSession("session-4"); }, 870);
+        setTimeout(function () { toggleSRE("1"); }, 1500);
     };
     function showSession(id) {
         const session = document.getElementById(id);
         session.style.display = "block";
+        console.log('=');
     }
+    function toggleSRE(id) {
+        console.log(id);
+        const button = document.getElementById('sreButton');
+
+        const stylesAndIntervals = [
+            { style: 'green-168', duration: 3000 },
+            { style: 'red-168', duration: 500 },
+            { style: 'green-168', duration: 2000 },
+            { style: 'red-168', duration: 2000 },
+        ];
+
+        let currentIndex = 0;
+
+        function applyStyle() {
+            const { style, duration } = stylesAndIntervals[currentIndex];
+            button.className = `tui-button ${style} white-255-text`;
+            currentIndex = (currentIndex + 1) % stylesAndIntervals.length;
+            console.log('apply');
+            setTimeout(applyStyle, duration);
+        }
+
+        applyStyle();
+        }
 </script>
 </html>
