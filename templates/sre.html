@@ -11,8 +11,8 @@
 </div>  
     <p><b>NOTE:</b> I often take part in resolving and dissecting incidents. It's quite an engaging job,
         allowing me not only to tackle incidents but also to exercise my mind and interact with colleagues.
-        I discovered some interesting questions on the internet regarding the role of an SRE engineer and >
-        tried to answer them.</p>
+        I discovered some interesting questions on the internet regarding the role of an SRE engineer and I
+        tried to answer them. Hope it will be interesting for you.</p>
         <p>All questions are expandable.</p>
     <p id="expandableParagraph1">
         <b>> What factors should be taken into consideration when it comes to external monitoring?</b>
@@ -118,6 +118,237 @@
             Wireshark or tcpdump to analyze the traffic at a low level. This can help identify specific issues with
             packet
             loss or unexpected traffic patterns.</p>
+    </div>
+    <p id="expandableParagraph3">
+        <b>> How would you script a check for mounted filesystems in virtual machine in AWS to ensure they are consistently mounted?</b>
+        </p>
+        <div class="content" id="c3">
+           <p>Here it is some of ideas how to check mountpoints in vm in AWS and send periodically data to logstash. Python script and systemd service:</p>
+<textarea class="tui-textarea full-width" style="height: 600px; overflow: scroll;">
+aws_mount_checker.py
+
+import boto3
+import subprocess
+import psutil
+import logging
+import logging.handlers
+import requests
+import json
+
+# Logstash Configuration
+logstash_host = 'your-logstash-host'
+logstash_port = 5044
+
+aws_region = 'us-east-1'
+
+logger = logging.getLogger('aws_mount_checker')
+logger.setLevel(logging.INFO)
+
+formatter = logging.Formatter('{"message": "%(message)s"}')
+
+logstash_handler = logging.handlers.SocketHandler(logstash_host, logstash_port)
+logstash_handler.setLevel(logging.INFO)
+logstash_handler.setFormatter(formatter)
+logger.addHandler(logstash_handler)
+
+def get_mounted_volumes():
+    partitions = psutil.disk_partitions()
+    mounted_volumes = [p.device for p in partitions]
+    return mounted_volumes
+
+def is_mounted(volume_id):
+    return volume_id in get_mounted_volumes()
+
+def remount_volume(volume_id):
+    try:
+        subprocess.check_output(['sudo', 'mount', volume_id])
+        logger.info(f"Volume {volume_id} remounted.")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Error remounting volume {volume_id}: {e.output.decode()}")
+
+if __name__ == '__main__':
+    session = boto3.Session(region_name=aws_region)
+
+    # AWS resource client
+    ec2 = session.resource('ec2')
+
+    while True:
+        for volume in ec2.volumes.all():
+            volume_id = volume.id
+            if is_mounted(volume_id):
+                continue
+            remount_volume(volume_id)
+            logger.info(f"Volume {volume_id} was remounted.")
+
+        # Send a status event to Logstash
+        status_event = {"status": "AWS mount checker script executed"}
+        requests.post(f'http://{logstash_host}:{logstash_port}', data=json.dumps(status_event))
+
+aws_mount_checker.service
+
+[Unit]
+Description=AWS EBS Mount Checker Service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /path/to/aws_mount_checker.py
+
+[Install]
+WantedBy=multi-user.target
+
+aws_mount_checker.timer
+
+[Unit]
+Description=Run AWS EBS Mount Checker periodically
+
+[Timer]
+OnBootSec=0
+OnUnitActiveSec=10m
+
+[Install]
+WantedBy=timers.target
+
+cp *.timer *.service /etc/systemd/system
+
+sudo systemctl daemon-reload
+sudo systemctl enable aws_mount_checker.timer
+sudo systemctl start aws_mount_checker.timer
+</textarea>
+        </div>
+        <p id="expandableParagraph4">
+            <b>> Imagine a situation when you were granted absolute autonomy in developing a personalized monitoring system. Please kindly elucidate the structure of the message you intend to transmit to the system. Specify the format you would employ, outline the attributes you aim to capture and the reasons behind these choices, and delineate the instructions you will furnish to the Software Engineering team for implementing this format in their metrics for UI, Middle Tier, and Database components.</b>
+            </p>
+            <div class="content" id="c4">
+                <p>Message Format:</p>
+
+<p>For the message format, I would recommend using a structured data format like JSON or Protocol Buffers (protobuf). These formats are versatile, human-readable, and easy to work with in various programming languages.</p>
+
+<p>Attributes to Capture and Why:</p>
+
+<p>Timestamp: To record when the event occurred. This is crucial for tracing the timeline of events and diagnosing issues.</p>
+
+<p>Component Type: Identify whether the message is coming from the UI, Middle Tier, or Database component. This categorization helps in understanding where issues may be originating.</p>
+
+<p>Severity Level: Assign a severity level (e.g., INFO, WARNING, ERROR, CRITICAL) to each message. This helps prioritize issues and alerts.</p>
+
+<p>Message ID or Event ID: Unique identifier for the message. This helps in correlating related events and tracking them across the system.</p>
+
+<p>Message Text: A clear and concise message describing the event or issue. This is essential for human readability and quick understanding.</p>
+
+<p>User/Session Information: If applicable, capture user or session information. This helps in tracking user-specific issues or understanding the impact of an event on a specific user or session.</p>
+
+<p>HTTP Status Code (for UI and Middle Tier): Capture the HTTP status code to monitor response statuses for web applications. This is important for tracking user experience.</p>
+
+<p>Performance Metrics (for UI and Middle Tier): Capture metrics like response time, latency, and throughput. These metrics are crucial for performance monitoring and optimization.</p>
+
+<p>Database Query Details (for Database): If an event relates to a database operation, capture the query details, execution time, and database server information.</p>
+
+<p>Machine/Server Information: Include server or machine metadata like hostname, IP address, and any other relevant details. This is crucial for tracking issues to specific servers in a distributed system.</p>
+
+<p>Custom Tags/Labels: Add custom tags or labels to further categorize messages. For example, tags could include &quot;authentication,&quot; &quot;authorization,&quot; &quot;payments,&quot; etc., depending on your application's features.</p>
+
+<p>Guidance to Software Engineering:</p>
+
+<p>Standardize the Message Format: Ensure that all components (UI, Middle Tier, Database) adopt the standardized message format (JSON, protobuf, etc.) for sending monitoring data. This uniformity simplifies data processing and analysis.</p>
+
+<p>Implement Log and Metric Generation: Instruct software engineers to include logging and metric generation in their code. This involves using appropriate libraries and tools to generate messages with the required attributes and log them.</p>
+
+<p>Set Logging Levels: Encourage engineers to set appropriate logging levels (INFO, DEBUG, WARN, ERROR) based on the importance of the message. This helps in filtering and prioritizing messages.</p>
+
+<p>Incorporate Error Handling: Ensure that error messages are generated for exceptions and errors. These messages should contain all relevant information to diagnose the issue.</p>
+
+<p>Use Consistent Naming Conventions: Establish naming conventions for components, severity levels, and custom tags to ensure uniformity and consistency across the system.</p>
+
+<p>Instrument Performance Metrics: Engineers should instrument their code to capture performance metrics, especially in UI and Middle Tier components. This data is vital for performance monitoring and optimization.</p>
+
+<p>Security Considerations: Ensure that sensitive data is not logged in the messages, and access to logs and metrics is appropriately controlled.</p>
+
+<p>Logging Best Practices: Train engineers on logging best practices, such as log rotation, log retention policies, and storage solutions for log data.</p>
+
+<p>Monitoring Tools: Provide guidance on selecting and integrating monitoring tools that can ingest and analyze the standardized messages, making it easier to gain insights from the collected data.</p>
+
+<p>Regular Review and Iteration: Encourage continuous improvement by periodically reviewing the logs and metrics, identifying areas for optimization, and refining the message format and attributes as needed.</p>
+            </div>
+  <p id="expandableParagraph5">
+    <b>> A particular customer has a link to an environment established through P2P VPNs from AWS to the client's Datacenter. They are reporting sporadic connection issues that eventually lead to a complete outage. It has been verified that network connectivity is entirely disrupted between the Client Datacenter and AWS. What specific factors do you examine, and what monitoring measures do you establish moving forward to proactively identify and address this issue before it escalates?</b>
+    </p>
+    <div class="content" id="c5">
+        <p>Here's a theoretical plan of actions to resolve the incident of intermittent VPN connection failures between the client's datacenter and AWS, along with specific details on what to check in AWS:</p>
+        <p>Step 1: Initial Assessment and Client Communication</p>
+        <p>Establish immediate communication with the client to understand the impact and history of the issue. Gather information on when the problem started, the frequency of failures, and any recent changes in the network setup.</p>
+        <p>Step 2: Verify Network Connectivity and VPN Configuration</p>
+        <p>Use ping tests and traceroutes to confirm network connectivity between the client's datacenter and AWS. Review the VPN configuration: Check for any misconfigurations, including encryption protocols, routing, security groups, and pre-shared keys. Examine VPN logs from both AWS and the client's datacenter to identify any error messages or unusual behavior.</p>
+        <p>Step 3: AWS Verification</p>
+        <p>Log into the AWS Management Console and investigate the following: VPN Connections: Check the status of the P2P VPN connections in AWS. Ensure they are in an &quot;available&quot; state and that there are no warnings or errors. Virtual Private Cloud (VPC) Configuration: Review the VPC settings, routing tables, security group rules, and network ACLs. Ensure they are correctly configured. VPN Gateway: Examine the VPN gateway settings and logs in AWS to detect any issues on the AWS side. Network ACLs and Security Groups: Ensure that network ACLs and security group rules are correctly configured to allow VPN traffic.</p>
+        <p>Step 4: ISP and Hardware Checks</p>
+        <p>Contact the client's Internet Service Provider (ISP) to confirm that there are no known connectivity issues on their end. Inspect the client's network hardware, including routers, switches, and firewalls, to rule out hardware failures or misconfigurations.</p>
+        <p>Step 5: Establish Proactive Monitoring and Documentation</p>
+        <p>Implement proactive network monitoring and alerts: Use network monitoring tools such as Nagios, Zabbix, or AWS CloudWatch to track the health and performance of network devices, VPN connections, and the AWS VPC. Configure alerts to trigger when specific thresholds are breached, such as high latency, dropped packets, or VPN tunnel status changes. Ensure that network documentation is up-to-date, containing detailed network configurations, contact information, and a comprehensive incident response plan.</p>
+        <p>Step 6: Incident Resolution and Post-Incident Review</p>
+        <p>Once the root cause is identified (e.g., misconfigurations, hardware issues), work on resolving the issue. This may involve reconfiguration of the VPN, routing adjustments, or hardware replacement. Conduct a post-incident review with the client's technical team to identify lessons learned and make recommendations for improving network resilience and redundancy. By following this comprehensive plan and focusing on the specifics of AWS configuration and monitoring, you can effectively address the current network issue and establish proactive measures to prevent similar incidents in the future</p>
+    </div>
+<p id="expandableParagraph6">
+    <b>> In the existing configuration, there are sporadic failures in the transmission of data from the MySQL DB to a
+        specific microservice. The network path involves passing through the Oracle DB, the K8S Ingress controller
+        (nginx), and finally reaching the Microservice. This microservice then interacts with various endpoints to
+        fulfill a task and subsequently sends the results back along the same network path.
+
+        <p>The intermittent error is not being recorded, and it appears that the request is being closed on the database
+            side. No entries related to this error are found in the logs of nginx, the database, or the microservice.
+        </p>
+
+        <p>Two observed symptoms are as follows:</p>
+
+        <p>The Database appears to silently close the TCP connection and become unresponsive.
+            When a large volume of messages is sent, the K8S microservice ceases to receive messages altogether.
+            Outline the steps you would take to investigate this issue and detail the measures you would implement to
+            identify the root cause.</p>
+    </b>
+</p>
+    <div class="content" id="c6">
+        <p>Incident Overview: Our organization experienced an incident with the MySQL Database service. The incident
+            manifested through two prominent symptoms: intermittent errors not being recorded and the abrupt closure of
+            requests on the database side. Here, we present a post-mortem analysis to better understand the root causes and
+            potential remediation strategies.</p>
+    
+        <p>Symptoms:</p>
+    
+        <p>1. Silent TCP Connection Closure and Hang:</p>
+    
+        <p>Observation: The MySQL Database seemed to silently close TCP connections and become unresponsive. Impact: This
+            resulted in service disruptions and downtime for our applications. Possible Causes and Remediation: Resource
+            Limitations: We suspect that resource limitations, such as CPU or memory exhaustion, may have triggered these
+            issues. Resource utilization on the Oracle DB server should be closely monitored. If resource constraints are
+            identified, scaling resources may be necessary to accommodate the expected load. Connection Pooling: Check the
+            connection pool settings for any misconfigurations. Ensure the pool is appropriately sized to handle incoming
+            connections. Timeout Settings: Review and adjust timeout settings to prevent connections from being closed
+            prematurely.</p>
+    
+        <p>2. Microservice Stoppage under High Message Volume:</p>
+    
+        <p>Observation: The K8S microservice ceased to receive messages during periods of high message volume. Impact: This
+            resulted in interruptions to the flow of data and potential data loss. Possible Causes and Remediation: Error
+            Handling: Investigate the microservice's error-handling mechanisms. Ensure it can gracefully handle errors or
+            exceptions to prevent complete stoppage during issues. Monitoring and Alerting: Implement robust monitoring and
+            alerting systems for the microservice to identify and address issues proactively. Load Testing: Conduct load
+            testing to simulate high traffic volumes and identify performance bottlenecks under heavy loads. Investigation
+            Steps:</p>
+    
+        <p>Review Database Server Logs: Thoroughly examine the MySQL database server logs for any warnings, errors, or
+            unusual activities that might provide insights into the issues. Network and Firewall Configuration: Investigate
+            network issues and firewall rules that could be dropping or blocking connections between the Oracle database and
+            the K8S Ingress controller. Database Locks and Deadlocks: Examine the database for potential lock and deadlock
+            issues. Optimize the schema and queries to minimize contention. Database Version and Patching: Ensure the Oracle
+            database is up to date with the latest patches and updates, as known issues may be addressed in newer versions
+            or patches. Lessons Learned:</p>
+    
+        <p>Proactive Monitoring: Implementing comprehensive monitoring and alerting is crucial to identifying and addressing
+            issues in real-time. Collaboration: Effective incident resolution often requires collaboration between database
+            administrators, network administrators, and developers.</p>
+    
+        <p>This post-mortem analysis serves as a foundation for identifying and addressing the root causes of the MySQL
+            Database service interruption and improving our incident response procedures. We must implement these lessons to
+            ensure the stability and reliability of our systems moving forward.</p>
     </div>
 </div>
 </div>
