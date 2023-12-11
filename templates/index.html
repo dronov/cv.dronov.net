@@ -75,15 +75,14 @@
         setTimeout(function () { showSession("session-2"); }, 400);
         setTimeout(function () { showSession("session-3"); }, 450);
         setTimeout(function () { showSession("session-4"); }, 870);
-        setTimeout(function () { toggleSRE("1"); }, 1500);
+        setTimeout(function () { toggleSRE("Hello! If you are here, please write me to my mail dronovmm@proton.me or in telegram @dronov :) Looks like we have something to talk about. "); }, 1500);
     };
     function showSession(id) {
         const session = document.getElementById(id);
         session.style.display = "block";
-        console.log('=');
     }
     function toggleSRE(id) {
-        console.log(id);
+        console.log(id)
         const button = document.getElementById('sreButton');
 
         const stylesAndIntervals = [
@@ -99,7 +98,6 @@
             const { style, duration } = stylesAndIntervals[currentIndex];
             button.className = `tui-button ${style} white-255-text`;
             currentIndex = (currentIndex + 1) % stylesAndIntervals.length;
-            console.log('apply');
             setTimeout(applyStyle, duration);
         }
 
