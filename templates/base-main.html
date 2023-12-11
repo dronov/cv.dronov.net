@@ -16,9 +16,32 @@
 
         gtag('config', 'G-MQPMEK74QC');
     </script>
+<style>
+.content {
+  display: none;
+}
+
+.expanded {
+    display: block;
+}
+
+.expanded .content {
+  display: block;
+}
+</style>
+
 </head>
 
 <body>
     {% block content %} {% endblock %}
+<script>
+    document.getElementById('expandableParagraph1').addEventListener('click', function() {
+        document.getElementById('c1').classList.toggle('expanded');
+    });
+    document.getElementById('expandableParagraph2').addEventListener('click', function() {
+        document.getElementById('c2').classList.toggle('expanded');
+    });
+
+</script>
 </body>
 </html>
