@@ -17,7 +17,7 @@ def howitworks():
 
 @app.route('/bios/')
 def bios():
-    return render_template('bios.html', page_title='Mike Dronov Resume')
+    return render_template('bios.html', page_title="Main")
 
 @app.route('/skills/')
 def skills():

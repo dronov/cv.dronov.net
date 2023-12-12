@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %} {% endblock %} - Resume</title>
+    <title>{% block title %} {% endblock %} {{ page_title}} - Resume</title>
     <script src="https://vinibiavatti1.github.io/TuiCss/dist/tuicss.min.js"></script>
     <link rel="stylesheet" href="https://vinibiavatti1.github.io/TuiCss/dist/tuicss.min.css">
 
@@ -15,6 +15,15 @@
         gtag('js', new Date());
 
         gtag('config', 'G-MQPMEK74QC');
+    </script>
+    <script>
+        function handleKeyPress(event) {
+            if (event.key === 'Escape') {
+                window.location.href = '/';
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyPress);
     </script>
 </head>
 
