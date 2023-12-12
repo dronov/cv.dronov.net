@@ -16,16 +16,7 @@
 
         gtag('config', 'G-MQPMEK74QC');
     </script>
-    <script>
-        function handleKeyPress(event) {
-            if (event.key === 'Escape') {
-                window.location.href = '/';
-            }
-        }
-
-        document.addEventListener('keydown', handleKeyPress);
-    </script>
-</head>
+    </head>
 
 <body>
     <div class="tui-screen-1024-768 bordered white-168">
@@ -43,17 +34,22 @@
         </div>
         <div class="tui-statusbar absolute cyan-168">
             <ul>
-                <li><a href="/bios/"><span class="white-255-text">F1</span> Work menu</a></li>
-                <li><a href="#!"><span class="white-255-text">↑↓</span> Select Item</a></li>
-                <li><a href="#!"><span class="white-255-text">-/+</span> Change Values</a></li>
-                <li><a href="/bios/"><span class="white-255-text">F9</span> Back</a></li>
-                <br>
-                <li><a href="/"><span class="white-255-text">Esc</span> Exit</a></li>
-                <li><a href="#!"><span class="white-255-text">←→</span> Select Menu</a></li>
+                <li><a href="/"><span class="white-255-text">🔚</span> Exit</a></li>
+                <li><a href="#!"><span class="white-255-text">💾</span>Bios</a></li>
                 <li><a href="#!"><span class="white-255-text">Enter</span> Select Sub-Menu</a></li>
                 <li><a href="/"><span class="white-255-text">F10</span> Save and Exit</a></li>
             </ul>
         </div>
-    </div>
+    </div><script>
+        function handleKeyPress(event) {
+            if (event.key === 'Escape') {
+                console.log("esc");
+                window.location.href = '/';
+            }
+        }
+
+        document.addEventListener('keydown', handleKeyPress);
+    </script>
+
 </body>
 </html>
