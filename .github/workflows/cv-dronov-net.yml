@@ -1,5 +1,5 @@
 name: build/push docker image
-run-name: ${{ github.actor }} is is building interactive CV 🚀
+run-name: ${{ github.actor }} is building interactive CV 🚀
 on: [push]
 jobs:
   linter:
