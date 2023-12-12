@@ -8,13 +8,11 @@ jobs:
       - run: ruff app.py
   test:
     runs-on: self-hosted
-    needs: 
     steps:
       - run: echo "🎉 There will be python tests."
       - run: echo "🐧 I promise!"
   security:
     runs-on: self-hosted
-    needs: 
     steps:
       - run: echo "🎉 There will be security tests."
       - run: echo "🐧 I promise!"
