@@ -19,6 +19,10 @@ def howitworks():
 def bios():
     return render_template('bios.html', page_title="Main")
 
+@app.route('/contacts/')
+def contacts():
+    return render_template('contacts.html')
+
 @app.route('/skills/')
 def skills():
     return render_template('skills.html')
