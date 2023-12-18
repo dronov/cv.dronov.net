@@ -52,7 +52,7 @@
 <b>Description:</b>
 <p>The code is pushed to the Github repository. Next, Github Actions creates a pipeline that runs on a standalone runner. We perform linting checks, run tests, and if everything is successful, we push the built Docker Image to a private Docker registry. Afterward, we create a new job in Nomad that pulls the previously built Docker Image, builds the container, and launches it in the cluster. Clients from the internet access the application through a separately configured Nginx, which is set up alongside Certbot to handle SSL certificates.</p>
 <p>Honestly, I found great pleasure in implementing the resume as if it were a real production project. It was a kind of hackathon for myself: a chance to tackle a task under constraints and explore tools that I don't use in my everyday life. For me, it was the container orchestration system Nomad and Github Actions.</p>
-<p>I understand that the project is not perfect. There's still a lot to improve, both in terms of code (I didn't have time to refactor the HTML quickly, at least from a DRY perspective) and infrastructure (I still haven't decided on lightweight monitoring).</p>
+<p>I understand that the project is not perfect. There's still a lot to improve, both in terms of code (I didn't have time to refactor the HTML quickly, at least from a DRY perspective).</p>
 <b>Source code:</b> <a href="https://github.com/dronov/cv.dronov.net/">https://github.com/dronov/cv.dronov.net/</a><br>
 <b>Application:</b> Python + Flask<br>
 <b>CSS:</b> <a href="https://github.com/vinibiavatti1/TuiCss/">TuiCss</a><br>
@@ -60,7 +60,7 @@
 <b>Orchestration:</b> <a href="https://www.nomadproject.io/">Nomad</a><br>
 <b>CI-CD:</b><a href="https://github.com/dronov/cv.dronov.net/actions">Github Actions</a><br>
 <b>Linter:</b><a href="https://github.com/astral-sh/ruff"> Ruff</a><br>
-<b>Monitoring:</b> Has not setup. I am not sure does it <b>really</b> necessary for small pet-project<br>
+<b>Monitoring:</b><a href="">https://learn.netdata.cloud/docs/installing/</a>NetData<br>
             </fieldset>
         </div>
 
