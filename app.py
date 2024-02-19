@@ -49,7 +49,7 @@ def restream4():
 
 @app.route('/zeal-group/')
 def zealgroup():
-    return render_template('zeal-group.html', page_title="Senior System Engineer | Zeal Group | 2021-2022")
+    return render_template('zeal-group.html', page_title="Senior System Engineer | Zeal Group | 2022-..")
 
 @app.route('/volga-dnepr/')
 def volgadnepr():
