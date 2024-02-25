@@ -1,4 +1,5 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, send_file
+import os
 
 app = Flask(__name__)
 
@@ -58,3 +59,10 @@ def volgadnepr():
 @app.route('/sre/')
 def sre():
     return render_template('sre.html', page_title='SRE and incidents')
+
+@app.route('/dronov.pdf', methods=['GET', 'POST'])
+def cv():
+    try:
+        return send_file('dronov.pdf')
+    except Exception as e:
+        return str(e)
