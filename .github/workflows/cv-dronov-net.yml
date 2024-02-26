@@ -5,6 +5,7 @@ jobs:
   linter:
     runs-on: self-hosted
     steps:
+      - uses: actions/checkout@v2
       - run: ruff app.py
   test:
     runs-on: self-hosted
